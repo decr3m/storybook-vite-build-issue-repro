@@ -1,0 +1,14 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - env
+      - echo Logging in to Amazon ECR...
+      # aws ecr get-login-password --region ap-southeast-2 | docker login --username AWS --password-stdin 265681005590.dkr.ecr.ap-southeast-2.amazonaws.com
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+  build:
+    commands:
+      - npm i -g zx@6.1.0
+      # builds IMG images
+      - yarn install --cwd scripts/cdk-builder
+      - zx ./scripts/cdk-builder/build.mjs

@@ -1,0 +1,28 @@
+# Ignore everything
+**
+
+# Allow files and directories
+!/public
+!/scripts
+!/patches
+!/src
+
+!/.bitmap
+!/.dockerignore
+!/.env.example
+!/.eslintcache
+!/.eslintrc-ide.json
+!/.git/
+!/.gitignore
+!/.graphqlconfig.yml
+!/.prettierignore
+!/.prettierrc.json
+!/.storybook/
+!/buildspec.yml
+!/Dockerfile
+!/package.json
+!/README.md
+!/vite.config.ts
+!/index.html
+!/tsconfig.json
+!/yarn.lock

@@ -1,0 +1,5 @@
+customHeaders:
+  - pattern: '/namedlogo.png'
+    headers:
+      - key: 'content-type'
+        value: 'image/png'

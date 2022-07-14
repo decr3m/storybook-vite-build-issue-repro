@@ -1,0 +1,9 @@
+overwrite: true
+schema: 'scripts/codegen/schema.js'
+generates:
+  src/gqlTypes.tsx:
+    config:
+      nonOptionalTypename: true
+    plugins:
+      - 'typescript'
+      - 'typescript-react-apollo'

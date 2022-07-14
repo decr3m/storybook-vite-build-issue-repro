@@ -1,0 +1,125 @@
+diff --git a/node_modules/@date-io/date-fns/build/index.esm.js b/node_modules/@date-io/date-fns/build/index.esm.js
+index 6f768c2..379ecd5 100644
+--- a/node_modules/@date-io/date-fns/build/index.esm.js
++++ b/node_modules/@date-io/date-fns/build/index.esm.js
+@@ -46,7 +46,7 @@ import startOfYear from 'date-fns/startOfYear';
+ import parseISO from 'date-fns/parseISO';
+ import formatISO from 'date-fns/formatISO';
+ import isWithinInterval from 'date-fns/isWithinInterval';
+-import longFormatters from 'date-fns/_lib/format/longFormatters';
++import longFormatters from './long-formatter';
+ import defaultLocale from 'date-fns/locale/en-US';
+ 
+ var defaultFormats = {
+diff --git a/node_modules/@date-io/date-fns/build/long-formatter.js b/node_modules/@date-io/date-fns/build/long-formatter.js
+new file mode 100644
+index 0000000..c451699
+--- /dev/null
++++ b/node_modules/@date-io/date-fns/build/long-formatter.js
+@@ -0,0 +1,105 @@
++"use strict";
++
++Object.defineProperty(exports, "__esModule", {
++  value: true
++});
++exports.default = void 0;
++
++function dateLongFormatter(pattern, formatLong) {
++  switch (pattern) {
++    case 'P':
++      return formatLong.date({
++        width: 'short'
++      });
++
++    case 'PP':
++      return formatLong.date({
++        width: 'medium'
++      });
++
++    case 'PPP':
++      return formatLong.date({
++        width: 'long'
++      });
++
++    case 'PPPP':
++    default:
++      return formatLong.date({
++        width: 'full'
++      });
++  }
++}
++
++function timeLongFormatter(pattern, formatLong) {
++  switch (pattern) {
++    case 'p':
++      return formatLong.time({
++        width: 'short'
++      });
++
++    case 'pp':
++      return formatLong.time({
++        width: 'medium'
++      });
++
++    case 'ppp':
++      return formatLong.time({
++        width: 'long'
++      });
++
++    case 'pppp':
++    default:
++      return formatLong.time({
++        width: 'full'
++      });
++  }
++}
++
++function dateTimeLongFormatter(pattern, formatLong) {
++  var matchResult = pattern.match(/(P+)(p+)?/) || [];
++  var datePattern = matchResult[1];
++  var timePattern = matchResult[2];
++
++  if (!timePattern) {
++    return dateLongFormatter(pattern, formatLong);
++  }
++
++  var dateTimeFormat;
++
++  switch (datePattern) {
++    case 'P':
++      dateTimeFormat = formatLong.dateTime({
++        width: 'short'
++      });
++      break;
++
++    case 'PP':
++      dateTimeFormat = formatLong.dateTime({
++        width: 'medium'
++      });
++      break;
++
++    case 'PPP':
++      dateTimeFormat = formatLong.dateTime({
++        width: 'long'
++      });
++      break;
++
++    case 'PPPP':
++    default:
++      dateTimeFormat = formatLong.dateTime({
++        width: 'full'
++      });
++      break;
++  }
++
++  return dateTimeFormat.replace('{{date}}', dateLongFormatter(datePattern, formatLong)).replace('{{time}}', timeLongFormatter(timePattern, formatLong));
++}
++
++var longFormatters = {
++  p: timeLongFormatter,
++  P: dateTimeLongFormatter
++};
++var _default = longFormatters;
++exports.default = _default;
++module.exports = exports.default;
+\ No newline at end of file
